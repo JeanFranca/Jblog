@@ -13,16 +13,23 @@ class IndexView(TemplateView):
         return context
 
 class CreateArticleView(CreateView):
-    template_name = 'jblog/createArticle.html'
+    template_name = 'jblog/create_article.html'
     model = Article
     fields = ('title', 'text')
     success_url = reverse_lazy('jblog:index')
 
-#class ArticleUpdate(UpdateView):
-#
-#    model = Article
-#    fields = ['title', 'text']
-#    template_name = 'jblog/editArticle.html'
-#    def get_object(self):
-#        return get_object_or_404(Article,title=self.kwargs['title'])
-#    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Criar Artigo'
+        return context 
+
+class ArticleUpdate(UpdateView):
+    model = Article
+    fields = ('title', 'text')
+    template_name = 'jblog/create_article.html'
+    success_url = reverse_lazy('jblog:index')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editando Artigo <em>{}</em>'.format(self.object.title)
+        return context

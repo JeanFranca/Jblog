@@ -1,26 +1,27 @@
-{%extends 'jblog\base.html'%}
-{%block title%}
-    <title>Home</title>
-{%endblock%}
+{% extends 'jblog\base.html' %}
+{%block title%}Home{%endblock%}
 {%block main%}
-    {%block menu%}{%endblock%}
-    <div class="container" style="width:70%">
-        {% for article in articles%}
-            <div class="jumbotron">
-                <div class="display-4">
-                    <h2 class="text-center">{{article.title}}</h2>   
-                </div>
-                <hr class="my-4">
-                <div class="lead">
-                    {% with article.text.splitlines as lines%}
-                        {%for line in lines%}
-                            <p class="text-justify">{{line}}</p>
-                        {%endfor%}
-                    {%endwith%}
-                </div>
-            </div>
-            {%empty%}
-            <h2 class="card-body">sem arquivos para mostrar</h2>    
-        {%endfor%}
+{%block menu%}{%endblock%}
+<div class="container" style="width:70%">
+    {% for article in articles%}
+    <div class="jumbotron">
+        <div class="text-right">
+            <a href="{% url 'jblog:update' article.id %}" class="btn btn-sm btn-success">Editar</a>
+        </div>
+        <div class="display-4">
+            <h2 class="text-center">{{article.title}}</h2>
+        </div>
+        <hr class="my-4">
+        <div class="lead">
+            {% with article.text.splitlines as lines%}
+            {%for line in lines%}
+            <p class="text-justify">{{line}}</p>
+            {%endfor%}
+            {%endwith%}
+        </div>
     </div>
+    {%empty%}
+    <h2 class="card-body">sem arquivos para mostrar</h2>
+    {%endfor%}
+</div>
 {%endblock%}

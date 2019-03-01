@@ -1,0 +1,12 @@
+{%extends 'jblog/base.html'%}
+{%block title%}
+    <title>Novo artigo</title>
+{%endblock%}
+{%block menu%}{%endblock%}
+{%block main%}
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update">
+</form>
+{%endblock%}
+

@@ -13,13 +13,22 @@
 </head>
 
 <body>
-    <nav class="navbar fixed-top navbar-dark bg-primary">
+    <nav class="navbar fixed-top navbar-expand navbar-dark bg-primary">
         <a class="navbar-brand" href="{% url 'jblog:index' %}">Jblog</a>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'jblog:create' %}">Novo artigo</a>
                 <span class="sr-only">(current)</span>
             </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link text-danger" href="{% url 'logout' %}">Sair</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Entrar</a>
+            </li>
+            {% endif %}
             {% block menu %}{% endblock %}
         </ul>
     </nav>

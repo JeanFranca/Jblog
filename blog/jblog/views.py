@@ -28,7 +28,7 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
         return context
 
 
-class ArticleUpdate(UpdateView):
+class ArticleUpdate(LoginRequiredMixin, UpdateView):
     model = Article
     fields = ('title', 'text')
     template_name = 'jblog/create_article.html'

@@ -1,8 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView 
-from django.views.generic.edit import CreateView, CreateView, UpdateView
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, UpdateView
+
 from .models import Article
+
 
 class IndexView(TemplateView):
     template_name = "jblog/index.html"
@@ -12,17 +15,27 @@ class IndexView(TemplateView):
         context['articles'] = Article.objects.all().order_by("-published_at")
         return context
 
-class CreateArticleView(CreateView):
-    template_name = 'jblog/createArticle.html'
+
+class CreateArticleView(LoginRequiredMixin, CreateView):
+    template_name = 'jblog/create_article.html'
     model = Article
     fields = ('title', 'text')
     success_url = reverse_lazy('jblog:index')
 
-#class ArticleUpdate(UpdateView):
-#
-#    model = Article
-#    fields = ['title', 'text']
-#    template_name = 'jblog/editArticle.html'
-#    def get_object(self):
-#        return get_object_or_404(Article,title=self.kwargs['title'])
-#    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Criar Artigo'
+        return context
+
+
+class ArticleUpdate(LoginRequiredMixin, UpdateView):
+    model = Article
+    fields = ('title', 'text')
+    template_name = 'jblog/create_article.html'
+    success_url = reverse_lazy('jblog:index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editando Artigo <em>{}</em>'.format(
+            self.object.title)
+        return context

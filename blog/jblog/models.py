@@ -18,10 +18,14 @@ class Article(models.Model):
         db_index = True
     )
 
+    resume = models.TextField(
+        verbose_name="Resumo"
+    )
+
     text = models.TextField(
         verbose_name="Artigo"
     )
-
+    
     #category = models.ForeignKey(
     #    Category, 
     #    on_delete = models.SET_NULL,
